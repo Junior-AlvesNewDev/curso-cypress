@@ -11,8 +11,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "cypress": "^3.6.0",
-    "cypress-xpath": "^1.4.0"
+  "devDependencies": {
+    "cypress": "^15.6.0",
+    "cypress-xpath": "^2.0.1"
   }
 }
