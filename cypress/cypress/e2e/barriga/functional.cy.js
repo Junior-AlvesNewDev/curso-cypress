@@ -5,7 +5,7 @@ import loc from "../../support/locators"
 describe('Teste funcional', () => {
     beforeEach(() => {
         cy.visit('http://barrigareact.wcaquino.me/')
-        cy.get(loc.LOGIN.USER).type('onoffjunior@gmail.com')
+        cy.get(loc.LOGIN.USER).type('@gmail.com')
         cy.get(loc.LOGIN.PASSWORD).type('#@Barriga')
         cy.get(loc.LOGIN.BTN_LOGIN).click()
         cy.get(loc.MESSAGE).should('contain', 'Bem vindo')
