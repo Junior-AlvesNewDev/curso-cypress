@@ -5,12 +5,14 @@ const locators = {
         BTN_LOGIN: '.btn'
     },
     MENU: {
-        SETTINGS: '[data-test=meu-settings]',
+        SETTINGS: '[data-test=menu-settings]',
         CONTAS:'[href="/contas"]'
     },
-    CONTAS: {'[data-test=nome]',
-    BTN_SALVAR: '.btn'
-    }
+    CONTAS: {
+        NOME: '[data-test=nome]',
+    BTN_SALVAR: '.btn',
+    XP_BTN_ALTERAR: "//table//td[contains(., 'Internet')]/.//i[@class='far fa-edit']"
+    },
     MESSAGE:'.toast-message'
 }
 
