@@ -1,59 +1,52 @@
 /// <reference types="cypress" />
 
 describe('Teste funcional', () => {
+    let token
     beforeEach(() => {
-        //cy.login('onoffjunior@gmail.com', '#@Barriga')        
+        cy.getToken('onoffjunior@gmail.com', '#@Barriga')
+            .then(tkn => {
+                token = tkn
+            })
     })
-
 
     it('Criar conta', () => {
         cy.request({
+            url: 'https://barrigarest.wcaquino.me/contas',
             method: 'POST',
-            url: 'https://barrigarest.wcaquino.me/signin',
+            headers: { Authorization: `JWT ${token}` },
             body: {
-                email: 'onoffjunior@gmail.com',
-                redirecionar: false,
-                senha: '#@Barriga'
+                nome: 'Conta via rest'
             }
-        }).its('body.token').should('not.be.empty')
-            .then(token => {
-                cy.request({
-                    url:'https://barrigarest.wcaquino.me/contas',
-                    method: 'POST',
-                    headers: {Authorization: `JWT ${token}`},
-                    body: {
-                        nome: 'Conta via rest'
-                    }
-                }).as('response')
-            })        
+        }).as('response')
+
 
         cy.get('@response').then(res => {
             expect(res.status).to.be.equal(201)
             expect(res.body).to.be.have.property('id')
             expect(res.body).to.be.have.property('nome', 'Conta via rest')
-        })    
+        })
     })
 
-   
+
 
     it('criar conta com o mesmo nome', () => {
-       
+
     })
 
     it('Salvando Movimentos', () => {
-        
+
     })
 
     it('Consultar saldo', () => {
-        
+
     })
 
     it('Remover movimento', () => {
-     
+
     })
 
     it('Excluir conta', () => {
-       
+
     })
 })
 
