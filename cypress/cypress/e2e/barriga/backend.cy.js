@@ -7,11 +7,13 @@ describe('Teste funcional', () => {
             .then(tkn => {
                 token = tkn
             })
+
+        cy.resetRest()    
     })
 
     it('Criar conta', () => {
         cy.request({
-            url: 'https://barrigarest.wcaquino.me/contas',
+            url: '/contas',
             method: 'POST',
             headers: { Authorization: `JWT ${token}` },
             body: {

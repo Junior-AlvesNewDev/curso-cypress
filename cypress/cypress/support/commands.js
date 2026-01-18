@@ -35,10 +35,10 @@ Cypress.Commands.add('clickAlert', (locators, message) => {
 
 Cypress.Commands.add('login', (user, passwd) => {
     cy.visit('http://barrigareact.wcaquino.me/')
-        cy.get(loc.LOGIN.USER).type('onoffjunior@gmail.com')
-        cy.get(loc.LOGIN.PASSWORD).type('#@Barriga')
-        cy.get(loc.LOGIN.BTN_LOGIN).click()
-        cy.get(loc.MESSAGE).should('contain', 'Bem vindo')
+    cy.get(loc.LOGIN.USER).type('onoffjunior@gmail.com')
+    cy.get(loc.LOGIN.PASSWORD).type('#@Barriga')
+    cy.get(loc.LOGIN.BTN_LOGIN).click()
+    cy.get(loc.MESSAGE).should('contain', 'Bem vindo')
 })
 
 Cypress.Commands.add('resetApp', () => {
@@ -49,14 +49,24 @@ Cypress.Commands.add('resetApp', () => {
 Cypress.Commands.add('getToken', (user, passwd) => {
     cy.request({
         method: 'POST',
-        url: 'https://barrigarest.wcaquino.me/signin',
+        url: '/signin',
         body: {
             email: user,
             redirecionar: false,
             senha: passwd
         }
     }).its('body.token').should('not.be.empty')
-    .then(token => {
-        return token
+        .then(token => {
+            return token
+        })
+})
+
+Cypress.Commands.add('resetRest', () => {
+    cy.getToken('onoffjunior@gmail.com', '#@Barriga').then(token => {
+        cy.request({
+            method: 'GET',
+            url: '/reset',
+            headers: { Authorization: `JWT ${token}` }
+        }).its('status').should('be.equal', 200)
     })
 })
