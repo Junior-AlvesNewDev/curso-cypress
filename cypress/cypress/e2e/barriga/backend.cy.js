@@ -39,7 +39,7 @@ describe('Teste funcional', () => {
             }
         }).then( res => {
             cy.request({
-                url:`http://barrigarest.wcaquino.me/contas/${res.body[0].id}`,
+                url:`/contas/${res.body[0].id}`,
                 method:'PUT',
                 headers: { Authorization: `JWT ${token}` },
                 body: {
@@ -48,6 +48,24 @@ describe('Teste funcional', () => {
             }).as('response')
         })
         cy.get('@response').its('status').should('be.equal', 200)
+    })
+
+    it.only('Não criar conta com o mesmo nome', () => {
+        cy.request({
+            url: '/contas',
+            method: 'POST',
+            headers: { Authorization: `JWT ${token}` },
+            body: {
+                nome: 'Conta mesmo nome'
+            },
+            failOnStatusCode: false
+        }).as('response')
+
+
+        cy.get('@response').then(res => {
+            expect(res.status).to.be.equal(400)
+            expect(res.body.error).to.be.equal('Já existe uma conta com esse nome!')
+        })
     })
 
     it('Salvando Movimentos', () => {
