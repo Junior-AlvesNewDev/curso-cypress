@@ -35,8 +35,8 @@ Cypress.Commands.add('clickAlert', (locators, message) => {
 
 Cypress.Commands.add('login', (user, passwd) => {
     cy.visit('http://barrigareact.wcaquino.me/')
-    cy.get(loc.LOGIN.USER).type('onoffjunior@gmail.com')
-    cy.get(loc.LOGIN.PASSWORD).type('#@Barriga')
+    cy.get(loc.LOGIN.USER).type('cy@email')
+    cy.get(loc.LOGIN.PASSWORD).type('a')
     cy.get(loc.LOGIN.BTN_LOGIN).click()
     cy.get(loc.MESSAGE).should('contain', 'Bem vindo')
 })
@@ -62,7 +62,7 @@ Cypress.Commands.add('getToken', (user, passwd) => {
 })
 
 Cypress.Commands.add('resetRest', () => {
-    cy.getToken('onoffjunior@gmail.com', '#@Barriga').then(token => {
+    cy.getToken('cy@email', 'a').then(token => {
         cy.request({
             method: 'GET',
             url: '/reset',
