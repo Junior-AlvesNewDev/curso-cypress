@@ -57,6 +57,7 @@ Cypress.Commands.add('getToken', (user, passwd) => {
         }
     }).its('body.token').should('not.be.empty')
         .then(token => {
+            Cypress.env('token', token)
             return token
         })
 })
@@ -69,4 +70,15 @@ Cypress.Commands.add('resetRest', () => {
             headers: { Authorization: `JWT ${token}` }
         }).its('status').should('be.equal', 200)
     })
+})
+
+Cypress.Commands.overwrite('request', (originalFn, options) => {
+        if(Cypress.env('token')) {
+            options.headers = {
+                ...options.headers,
+                Authorization: `JWT ${Cypress.env('token')}`
+                    
+        }
+    }
+    return originalFn(options)
 })

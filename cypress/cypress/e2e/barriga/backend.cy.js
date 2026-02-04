@@ -5,21 +5,19 @@ const data = moment().format('DD/MM/YYYY')
 
 
 describe('Teste funcional', () => {
-    let token
+    //let token
     beforeEach(() => {
         cy.getToken('cy@email', 'a')
-            .then(tkn => {
-                token = tkn
-            })
-
         cy.resetRest()
+
     })
+
 
     it('Criar conta', () => {
         cy.request({
             url: '/contas',
             method: 'POST',
-            headers: { Authorization: `JWT ${token}` },
+            //headers: { Authorization: `JWT ${token}` },
             body: {
                 nome: 'Conta via rest'
             }
@@ -37,7 +35,7 @@ describe('Teste funcional', () => {
         cy.request({
             method: 'GET',
             url: '/contas',
-            headers: { Authorization: `JWT ${token}` },
+            //headers: { Authorization: `JWT ${token}` },
             qs: {
                 nome: 'Conta para alterar'
             }
@@ -45,7 +43,7 @@ describe('Teste funcional', () => {
             cy.request({
                 url: `/contas/${res.body[0].id}`,
                 method: 'PUT',
-                headers: { Authorization: `JWT ${token}` },
+                // headers: { Authorization: `JWT ${token}` },
                 body: {
                     nome: 'conta alterada via rest'
                 }
@@ -58,7 +56,7 @@ describe('Teste funcional', () => {
         cy.request({
             url: '/contas',
             method: 'POST',
-            headers: { Authorization: `JWT ${token}` },
+            // headers: { Authorization: `JWT ${token}` },
             body: {
                 nome: 'Conta mesmo nome'
             },
@@ -76,7 +74,7 @@ describe('Teste funcional', () => {
         cy.request({
             url: '/saldo',
             method: 'GET',
-            headers: { Authorization: `JWT ${token}` }
+            // headers: { Authorization: `JWT ${token}` }
         }).then(res => {
             let saldoConta = null
             res.body.forEach(c => {
@@ -88,14 +86,14 @@ describe('Teste funcional', () => {
         cy.request({
             method: 'GET',
             url: '/transacoes',
-            headers: { Authorization: `JWT ${token}` },
+            //headers: { Authorization: `JWT ${token}` },
             qs: { descricao: 'Movimentacao 1, calculo saldo' }
         }).then(res => {
             console.log(res.body[0])
             cy.request({
                 url: `/transacoes/${res.body[0].id}`,
                 method: 'PUT',
-                headers: { Authorization: `JWT ${token}` },
+                // headers: { Authorization: `JWT ${token}` },
                 body: {
                     status: true,
                     data_transacao: moment(res.body[0].data_transacao).format('DD/MM/YYYY'),
@@ -111,7 +109,7 @@ describe('Teste funcional', () => {
         cy.request({
             url: '/saldo',
             method: 'GET',
-            headers: { Authorization: `JWT ${token}` }
+            //headers: { Authorization: `JWT ${token}` }
         }).then(res => {
             let saldoConta = null
             res.body.forEach(c => {
@@ -121,20 +119,22 @@ describe('Teste funcional', () => {
         })
     })
 
-    it.only('Remover movimento', () => {
+    it('Remover movimento', () => {
         cy.request({
             method: 'GET',
             url: '/transacoes',
-            headers: { Authorization: `JWT ${token}` },
+            //headers: { Authorization: `JWT ${token}` },
             qs: { descricao: 'Movimentacao para exclusao' }
         }).then(res => {
             cy.request({
                 url: `/transacoes/${res.body[0].id}`,
                 method: 'DELETE',
-                headers: { Authorization: `JWT ${token}` },
+                //headers: { Authorization: `JWT ${token}` },
             }).its('status').should('be.equal', 204)
 
         })
     })
 
+
 })
+
