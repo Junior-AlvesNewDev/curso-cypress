@@ -2,6 +2,8 @@
 
 import loc from "../../support/locators"
 import '../../../support/commandsContas'
+import '../../../support/buildEnv'
+import buildEnv from "../../../support/buildEnv"
 
 
 describe('Teste funcional', () => {
@@ -10,6 +12,7 @@ describe('Teste funcional', () => {
     })
 
     beforeEach(() => {
+        buildEnv()
         cy.login('cy@email', 'a')
         //cy.get(loc.MENU.HOME).click()
         //cy.resetApp()
